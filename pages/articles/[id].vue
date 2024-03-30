@@ -8,7 +8,7 @@ const article = computed(() => {
 </script>
 
 <template>
-    <div>
+    <div class="px-2">
         <p>{{ article?.title }}</p>
         <p>{{ article?.content }}</p>
     </div>
