@@ -1,0 +1,93 @@
+<script setup lang="ts">
+import { z } from "zod";
+import type { FormSubmitEvent } from "#ui/types";
+import { reactive } from "vue";
+import { v4 as uuidv4 } from "uuid";
+
+const articleStore = useArticleStore();
+
+const blogSchema = z.object({
+    title: z.string().min(1, "Must be at least 1 character").optional(),
+    description: z.string().min(1, "Must be at least 1 characters").optional(),
+    content: z.string().min(1, "Must be at least 1 characters").optional()
+});
+
+const blogState = reactive({
+    title: undefined,
+    description: undefined,
+    content: undefined
+});
+
+async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
+    const parseResult = blogSchema.safeParse(event.data);
+    if (!parseResult.success) {
+        return;
+    }
+
+    const validData = parseResult.data;
+    const articleId = uuidv4();
+    await articleStore.createArticle({
+        id: articleId,
+        title: validData.title || "",
+        description: validData.description || "",
+        content: validData.content || "",
+    });
+    await navigateTo({ path: `/publishing/${articleId}` });
+}
+</script>
+
+<template>
+    <div>
+        <h1 class="text-4xl text-slate-700">
+            Blog Engine
+        </h1>
+        <h3 class="text-2xl text-slate-600 pt-2">
+            Seamlessly construct your next blog
+        </h3>
+        <div>
+            <UForm
+                :schema="blogSchema"
+                :state="blogState"
+                :validate-on="['submit']"
+                @submit="onSubmit"
+            >
+                <UFormGroup
+                    label="Title"
+                    name="title"
+                    class="pt-2"
+                >
+                    <UInput v-model="blogState.title" />
+                </UFormGroup>
+                <UFormGroup
+                    label="Description"
+                    name="description"
+                    class="pt-2"
+                >
+                    <UInput v-model="blogState.description" />
+                </UFormGroup>
+                <UFormGroup
+                    label="Content"
+                    name="content"
+                    class="pt-2"
+                >
+                    <UTextarea
+                        v-model="blogState.content"
+                        :rows="22"
+                    />
+                </UFormGroup>
+                <div class="flex pt-2">
+                    <UFormGroup class="pr-2">
+                        <UButton type="submit">
+                            Submit
+                        </UButton>
+                    </UFormGroup>
+                    <UFormGroup>
+                        <UButton type="reset">
+                            Reset
+                        </UButton>
+                    </UFormGroup>
+                </div>
+            </UForm>
+        </div>
+    </div>
+</template>

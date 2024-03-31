@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useArticleStore } from "@/stores/article";
 const articleStore = useArticleStore();
 
 const links = computed(() => {
     return articleStore.articles.map((article) => {
         return {
             label: article.title,
-            to: `/articles/${article.id}`,
+            to: `/publishing/${article.id}`,
             icon: "i-heroicons-newspaper"
         };
     });
@@ -13,13 +15,17 @@ const links = computed(() => {
 
 </script>
 <template>
-    <div>
-        <h1>Articles:</h1>
-        <div class="flex">
+    <div class="flex">
+        <div class="flex flex-col">
+            <h1 class="text-2xl text-slate-700 pb-2">
+                Content
+            </h1>
             <UVerticalNavigation
                 class="w-36"
                 :links="links"
             />
+        </div>
+        <div class="px-2">
             <NuxtPage />
         </div>
     </div>

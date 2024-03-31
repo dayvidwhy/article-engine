@@ -1,17 +1,21 @@
+import { v4 as uuidv4 } from "uuid";
+
 interface Article {
     title: string;
+    description: string;
     content: string;
-    author: string;
     id: string;
 }
 
 export const useArticleStore = defineStore("articleStore", {
-    state: () => ( {
+    state: (): {
+        articles: Article[]
+    } => ({
         articles: [{
-            title: "First Article",
-            content: "This is the first article",
-            author: "dy",
-            id: "1",
+            title: "Article 1",
+            description: "Description 1",
+            content: "Content 1",
+            id: uuidv4()
         }],
     }),
     actions: {

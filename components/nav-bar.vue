@@ -11,9 +11,9 @@ const links = [
         to: "/engine"
     },
     {
-        label: "Articles",
+        label: "Publishing",
         icon: "i-heroicons-newspaper",
-        to: "/articles"
+        to: "/publishing"
     },
 ];
 </script>
