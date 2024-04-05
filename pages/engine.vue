@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const links = [
+const links: {
+    label: string;
+    icon: string;
+    to: string;
+}[] = [
     {
         label: "Blogs",
         icon: "i-heroicons-book-open",

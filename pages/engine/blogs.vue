@@ -1,21 +1,15 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
-import { reactive } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
+const { currentArticle } = toRefs(useArticleStore());
 const articleStore = useArticleStore();
 
 const blogSchema = z.object({
     title: z.string().min(1, "Must be at least 1 character").optional(),
     description: z.string().min(1, "Must be at least 1 characters").optional(),
     content: z.string().min(1, "Must be at least 1 characters").optional()
-});
-
-const blogState = reactive({
-    title: undefined,
-    description: undefined,
-    content: undefined
 });
 
 async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
@@ -47,7 +41,7 @@ async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
         <div>
             <UForm
                 :schema="blogSchema"
-                :state="blogState"
+                :state="currentArticle"
                 :validate-on="['submit']"
                 @submit="onSubmit"
             >
@@ -56,14 +50,14 @@ async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
                     name="title"
                     class="pt-2"
                 >
-                    <UInput v-model="blogState.title" />
+                    <UInput v-model="currentArticle.title" />
                 </UFormGroup>
                 <UFormGroup
                     label="Description"
                     name="description"
                     class="pt-2"
                 >
-                    <UInput v-model="blogState.description" />
+                    <UInput v-model="currentArticle.description" />
                 </UFormGroup>
                 <UFormGroup
                     label="Content"
@@ -71,7 +65,7 @@ async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
                     class="pt-2"
                 >
                     <UTextarea
-                        v-model="blogState.content"
+                        v-model="currentArticle.content"
                         :rows="22"
                     />
                 </UFormGroup>
