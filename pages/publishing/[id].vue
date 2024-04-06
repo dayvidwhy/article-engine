@@ -18,7 +18,14 @@ const { data } = await useFetch<ArticleData>("/api/blog/get", {
 
 <template>
     <div class="pl-2">
-        <p>{{ data?.title }}</p>
-        <p>{{ data?.content }}</p>
+        <h1>{{ data?.title }}</h1>
+        <h3>{{ data?.description }}</h3>
+        <p
+            v-for="line in data?.content.split('\n')"
+            :key="line"
+            class="pb-2"
+        >
+            {{ line }}
+        </p>
     </div>
 </template>

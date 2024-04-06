@@ -15,7 +15,6 @@ async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
     if (!parseResult.success) {
         return;
     }
-
     const validData = parseResult.data;
     const data = await $fetch("/api/blog/create", {
         method: "POST",
@@ -67,6 +66,7 @@ async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
                     <UTextarea
                         v-model="currentArticle.content"
                         :rows="22"
+                        class="whitespace-pre-line"
                     />
                 </UFormGroup>
                 <div class="flex pt-2">

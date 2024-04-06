@@ -23,11 +23,16 @@ const links: {
 </script>
 
 <template>
-    <div class="flex p-2">
-        <UVerticalNavigation
-            class="w-36"
-            :links="links"
-        />
+    <div class="flex">
+        <div class="flex flex-col">
+            <h1 class="text-2xl text-slate-700 pb-2">
+                Engines
+            </h1>
+            <UVerticalNavigation
+                class="w-36"
+                :links="links"
+            />
+        </div>
         <div class="px-2 w-full">
             <NuxtPage />
         </div>
