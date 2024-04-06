@@ -11,8 +11,6 @@ export default defineEventHandler(async (event) => {
     if (!article) {
         throw new Error("Article not found");
     }
-    
-    console.log("Got article ", article.get("title"));
     return {
         title: article.get("title"),
         description: article.get("description"),

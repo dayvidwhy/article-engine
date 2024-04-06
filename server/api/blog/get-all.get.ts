@@ -6,7 +6,6 @@ export default defineEventHandler(async () => {
         throw new Error("Article not found");
     }
     
-    console.log("Got articles ", articles);
     return {
         articleList: articles.map(article => ({
             id: article.get("id"),

@@ -4,6 +4,7 @@ export const db = new Sequelize({
     dialect: "sqlite",
     storage: "./sqlite.db",
     define: {
+        // prevent sequelize from pluralizing table names
         freezeTableName: true
     }
 });
@@ -17,7 +18,7 @@ interface ArticlesAttributes {
 
 export const Articles: ModelDefined<
     ArticlesAttributes,
-    Optional<ArticlesAttributes, "id">
+    Optional<ArticlesAttributes, "id"> // id is optional for creation
 > = db.define("Articles", {
     title: {
         type: DataTypes.STRING,
