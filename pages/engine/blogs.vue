@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
-import { v4 as uuidv4 } from "uuid";
 
 const { currentArticle } = toRefs(useArticleStore());
-const articleStore = useArticleStore();
 
 const blogSchema = z.object({
     title: z.string().min(1, "Must be at least 1 character").optional(),
@@ -19,15 +17,17 @@ async function onSubmit (event: FormSubmitEvent<typeof blogSchema>) {
     }
 
     const validData = parseResult.data;
-    const articleId = uuidv4();
-    await articleStore.createArticle({
-        id: articleId,
-        title: validData.title || "",
-        description: validData.description || "",
-        content: validData.content || "",
+    const data = await $fetch("/api/blog/create", {
+        method: "POST",
+        body: JSON.stringify({
+            title: validData.title || "",
+            description: validData.description || "",
+            content: validData.content || "",
+        })
     });
-    await navigateTo({ path: `/publishing/${articleId}` });
+    await navigateTo({ path: `/publishing/${data.id}` });
 }
+
 </script>
 
 <template>

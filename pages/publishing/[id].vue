@@ -1,15 +1,24 @@
 <script setup lang="ts">
 const route = useRoute();
 
-const articleStore = useArticleStore();
-const article = computed(() => {
-    return articleStore.articles.find((article) => article.id === route.params.id);
+interface ArticleData {
+    title: string;
+    description: string;
+    content: string;
+}
+
+const { data } = await useFetch<ArticleData>("/api/blog/get", {
+    method: "GET",
+    query: {
+        id: route.params.id
+    }
 });
+
 </script>
 
 <template>
     <div class="pl-2">
-        <p>{{ article?.title }}</p>
-        <p>{{ article?.content }}</p>
+        <p>{{ data?.title }}</p>
+        <p>{{ data?.content }}</p>
     </div>
 </template>

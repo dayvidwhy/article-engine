@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useArticleStore } from "@/stores/article";
-const articleStore = useArticleStore();
+const { data } = await useFetch<{
+    articleList: {
+        id: string;
+        title: string;
+    }[];
+}>("/api/blog/get-all", {
+    method: "GET"
+});
 
-const links = computed(() => {
-    return articleStore.articles.map((article) => {
-        return {
-            label: article.title,
-            to: `/publishing/${article.id}`,
-            icon: "i-heroicons-newspaper"
-        };
-    });
+const links = data.value?.articleList.map((article) => {
+    return {
+        label: article.title,
+        to: `/publishing/${article.id}`,
+        icon: "i-heroicons-newspaper"
+    };
 });
 
 </script>
